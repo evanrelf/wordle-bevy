@@ -31,6 +31,7 @@ in
 pkgs.mkShell {
   packages = with pkgs; [
     pkgs.fenix.latest.cargo
+    pkgs.fenix.latest.clippy
     pkgs.fenix.latest.rustc
   ] ++ pkgs.lib.optionals pkgs.stdenv.isLinux [
     pkgs.lld
