@@ -2,6 +2,14 @@ use bevy::prelude::*;
 
 fn main() {
     App::new()
+        .insert_resource(WindowDescriptor {
+            title: "Wordle".to_string(),
+            width: 500.0,
+            height: 1000.0,
+            resizable: false,
+            ..Default::default()
+        })
+        .insert_resource(ClearColor(Color::WHITE))
         .add_plugins(DefaultPlugins)
         .add_startup_system(setup)
         .run();
