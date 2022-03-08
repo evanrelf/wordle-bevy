@@ -13,31 +13,81 @@ fn main() {
 }
 
 fn setup(mut commands: Commands) {
-    commands.spawn_bundle(OrthographicCameraBundle::new_2d());
+    commands.spawn_bundle(UiCameraBundle::default());
 
     let rows = 6;
     let columns = 5;
-    let size = Vec3::new(50.0, 50.0, 0.0);
-    let spacing = 20.0;
-    let width = columns as f32 * (size.x + spacing) - spacing;
-    let offset = Vec3::new(-(width - size.x) / 2.0, 100.0, 0.0);
 
-    for row in 0..rows {
-        let y_position = row as f32 * (size.y + spacing);
-        for column in 0..columns {
-            let position = Vec3::new(column as f32 * (size.x + spacing), y_position, 0.0) + offset;
-            commands.spawn_bundle(SpriteBundle {
-                sprite: Sprite {
-                    color: Color::BLACK,
-                    ..Default::default()
-                },
-                transform: Transform {
-                    translation: position,
-                    scale: size,
-                    ..Default::default()
-                },
-                ..Default::default()
-            });
-        }
-    }
+    let size = Size::new(Val::Percent(100.0), Val::Percent(100.0));
+
+    let canvas_node = NodeBundle {
+        style: Style {
+            size,
+            justify_content: JustifyContent::Center,
+            align_items: AlignItems::Center,
+            ..Default::default()
+        },
+        color: Color::NONE.into(),
+        ..Default::default()
+    };
+
+    let grid_node = NodeBundle {
+        style: Style {
+            size,
+            flex_direction: FlexDirection::ColumnReverse,
+            aspect_ratio: Some(columns as f32 / rows as f32),
+            ..Default::default()
+        },
+        color: Color::NONE.into(),
+        ..Default::default()
+    };
+
+    let row_node = NodeBundle {
+        style: Style {
+            size,
+            flex_direction: FlexDirection::RowReverse,
+            ..Default::default()
+        },
+        color: Color::NONE.into(),
+        ..Default::default()
+    };
+
+    let box_node = |row, column| NodeBundle {
+        style: Style {
+            size,
+            ..Default::default()
+        },
+        color: if row % 2 == 0 {
+            if column % 2 == 0 {
+                Color::RED.into()
+            } else {
+                Color::YELLOW.into()
+            }
+        } else {
+            if column % 2 == 0 {
+                Color::BLUE.into()
+            } else {
+                Color::GREEN.into()
+            }
+        },
+        ..Default::default()
+    };
+
+    commands
+        .spawn_bundle(canvas_node)
+        .with_children(|canvas_parent| {
+            canvas_parent
+                .spawn_bundle(grid_node)
+                .with_children(|grid_parent| {
+                    for row in 0..rows {
+                        grid_parent
+                            .spawn_bundle(row_node.clone())
+                            .with_children(|row_parent| {
+                                for column in 0..columns {
+                                    row_parent.spawn_bundle(box_node(row, column));
+                                }
+                            });
+                    }
+                });
+        });
 }
