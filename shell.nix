@@ -33,6 +33,7 @@ pkgs.mkShell {
     pkgs.fenix.latest.cargo
     pkgs.fenix.latest.clippy
     pkgs.fenix.latest.rustc
+    pkgs.fenix.latest.rustfmt
   ] ++ pkgs.lib.optionals pkgs.stdenv.isLinux [
     pkgs.lld
   ] ++ pkgs.lib.optionals pkgs.stdenv.isDarwin [
