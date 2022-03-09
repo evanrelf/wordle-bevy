@@ -12,7 +12,7 @@ fn main() {
         .run();
 }
 
-fn setup(mut commands: Commands) {
+fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
     commands.spawn_bundle(UiCameraBundle::default());
 
     let rows = 6;
@@ -21,10 +21,27 @@ fn setup(mut commands: Commands) {
     let canvas_node = NodeBundle {
         style: Style {
             size: Size::new(Val::Percent(100.0), Val::Percent(100.0)),
-            justify_content: JustifyContent::Center,
+            flex_direction: FlexDirection::ColumnReverse,
             align_items: AlignItems::Center,
             ..Default::default()
         },
+        ..Default::default()
+    };
+
+    let title_text = TextBundle {
+        style: Style {
+            flex_shrink: 0.0,
+            ..Default::default()
+        },
+        text: Text::with_section(
+            "Wordle",
+            TextStyle {
+                font: asset_server.load("fonts/RobotoSlab-Bold.ttf"),
+                font_size: 50.0,
+                color: Color::BLACK,
+            },
+            Default::default(),
+        ),
         ..Default::default()
     };
 
@@ -71,6 +88,7 @@ fn setup(mut commands: Commands) {
     commands
         .spawn_bundle(canvas_node)
         .with_children(|canvas_parent| {
+            canvas_parent.spawn_bundle(title_text);
             canvas_parent
                 .spawn_bundle(grid_node)
                 .with_children(|grid_parent| {
