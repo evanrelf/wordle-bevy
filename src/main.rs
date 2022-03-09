@@ -18,11 +18,9 @@ fn setup(mut commands: Commands) {
     let rows = 6;
     let columns = 5;
 
-    let size = Size::new(Val::Percent(100.0), Val::Percent(100.0));
-
     let canvas_node = NodeBundle {
         style: Style {
-            size,
+            size: Size::new(Val::Percent(100.0), Val::Percent(100.0)),
             justify_content: JustifyContent::Center,
             align_items: AlignItems::Center,
             ..Default::default()
@@ -32,7 +30,7 @@ fn setup(mut commands: Commands) {
 
     let grid_node = NodeBundle {
         style: Style {
-            size,
+            size: Size::new(Val::Percent(100.0), Val::Percent(100.0)),
             flex_direction: FlexDirection::ColumnReverse,
             aspect_ratio: Some(columns as f32 / rows as f32),
             ..Default::default()
@@ -42,7 +40,7 @@ fn setup(mut commands: Commands) {
 
     let row_node = NodeBundle {
         style: Style {
-            size,
+            size: Size::new(Val::Percent(100.0), Val::Percent(100.0)),
             flex_direction: FlexDirection::RowReverse,
             ..Default::default()
         },
@@ -51,7 +49,7 @@ fn setup(mut commands: Commands) {
 
     let box_node = |row, column| NodeBundle {
         style: Style {
-            size,
+            size: Size::new(Val::Percent(100.0), Val::Percent(100.0)),
             ..Default::default()
         },
         color: if row % 2 == 0 {
