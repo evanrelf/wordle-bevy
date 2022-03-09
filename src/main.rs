@@ -27,7 +27,6 @@ fn setup(mut commands: Commands) {
             align_items: AlignItems::Center,
             ..Default::default()
         },
-        color: Color::NONE.into(),
         ..Default::default()
     };
 
@@ -38,7 +37,6 @@ fn setup(mut commands: Commands) {
             aspect_ratio: Some(columns as f32 / rows as f32),
             ..Default::default()
         },
-        color: Color::NONE.into(),
         ..Default::default()
     };
 
@@ -48,7 +46,6 @@ fn setup(mut commands: Commands) {
             flex_direction: FlexDirection::RowReverse,
             ..Default::default()
         },
-        color: Color::NONE.into(),
         ..Default::default()
     };
 
